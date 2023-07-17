@@ -1,35 +1,29 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { createRoot } from 'react-dom/client'
+import { Canvas } from '@react-three/fiber'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-	  ashir changed it with vim.
-      </p>
-    </>
+    <div id="canvasContainer">
+		<Canvas>
+			<ambientLight intensity={0.1} />
+			<directionalLight color="red" position={[0, 0, 5]} />
+			<mesh>
+				<boxGeometry />	
+				<meshStandardMaterial />
+			</mesh>
+		</Canvas>
+	</div>
   )
 }
 
+
+
+
+createRoot(document.getElementById("root")).render(<App/>)
+
 export default App
+
