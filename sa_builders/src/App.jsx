@@ -1,20 +1,36 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Canvas } from "@react-three/fiber";
 import "./App.css";
+import { DirectionalLightHelper } from "three";
+import { useHelper } from "@react-three/drei";
+
+function Scene() {
+  const dLightRef = useRef();
+
+  useHelper(dLightRef, DirectionalLightHelper, 1, "blue");
+
+  return (
+    <>
+      <ambientLight intensity={0.1} />
+      <directionalLight color="red" position={[0, 0, 5]} ref={dLightRef} />
+
+      <mesh>
+        <boxGeometry />
+        <meshStandardMaterial />
+      </mesh>
+      <gridHelper />
+    </>
+  );
+}
 
 function App() {
-  const [count, setCount] = useState(0);
+  const dLightRef = useRef();
   return (
-    <div id="canvasContainer" style={{ width: "100%", height: "100%" }}>
-      <Canvas>
+    <div id="canvasContainer" style={{ width: "100vw", height: "100vh" }}>
+      <Canvas camera={{ position: [2, 4, 5] }}>
         <color attach="background" args={["black"]} />
-        <ambientLight intensity={0.1} />
-        <directionalLight color="red" position={[0, 0, 5]} />
-        <mesh>
-          <boxGeometry />
-          <meshStandardMaterial />
-        </mesh>
+        <Scene />
       </Canvas>
     </div>
   );
