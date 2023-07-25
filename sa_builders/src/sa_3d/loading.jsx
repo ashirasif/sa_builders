@@ -1,16 +1,32 @@
-import { useTexture } from "@react-three/drei"
-import { useLoader } from "@react-three/fiber";
+
+import { useFrame, useLoader } from "@react-three/fiber";
+import { useRef } from "react";
 import { TextureLoader } from "three";
 
 
 
-export default function SAloading({w,h,ws,hs}) {
+export default function SAloading({size=15,ws=1,hs=1}) {
+    const loader = useRef()
+
     const logo_tex = useLoader(TextureLoader, "public/logo_2.jpg");
+    const loader_text = useLoader(TextureLoader, "public/loader.png");
+
+    useFrame(({clock}) => {
+        loader.current.rotation.z = clock.getElapsedTime() / -1.5
+    })
+
+
     return (
-        <mesh>
-            <planeGeometry args={[8.5,5,1,1]} />
-            <meshBasicMaterial map={logo_tex} />
-        </mesh>
+        <>
+            <mesh ref={loader}>
+                <planeGeometry args={[size,size,ws,hs]} />
+                <meshBasicMaterial map={loader_text}/> 
+            </mesh>
+            <mesh>
+                <planeGeometry args={[size-6,size-10,ws,hs]} />
+                <meshBasicMaterial map={logo_tex} />
+            </mesh>
+        </>
     )
 }
 
